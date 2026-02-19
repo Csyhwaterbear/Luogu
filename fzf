@@ -1,0 +1,5 @@
+P1047.cpp:	bool* nV_arr = (bool*)malloc((l+1)*sizeof(bool));
+P1420.cpp:	int* nVa = (int*)malloc(n * sizeof(int));
+P1420.cpp:	int* nVb = (int*)malloc((n-1) * sizeof(int));
+P1428.cpp:	int* nV_arr = (int*)malloc( n * sizeof(int) );
+P1428.cpp:	int* nV_res = (int*)malloc( n * sizeof(int) );

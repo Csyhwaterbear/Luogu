@@ -40,9 +40,7 @@ void input(vector<T>& v) {
 }
 
 /* ===== 数学工具 ===== */
-// greatest common divisor
 ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
-// least common multiple
 ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 
 /* ===== 质数判断 (试除) ===== */
@@ -117,12 +115,6 @@ struct BigInt {
 		return false;
 	}
 
-	friend bool operator>(const BigInt& a, const BigInt& b) { return b < a; }
-	friend bool operator<=(const BigInt& a, const BigInt& b) { return !(b < a); }
-	friend bool operator>=(const BigInt& a, const BigInt& b) { return !(a < b); }
-	friend bool operator==(const BigInt& a, const BigInt& b) { return a.d == b.d; }
-	friend bool operator!=(const BigInt& a, const BigInt& b) { return !(a == b); }
-
 	string str() const {
 		if (d.empty()) return "0";
 		string s = to_string(d.back());
@@ -134,9 +126,34 @@ struct BigInt {
 	}
 };
 
+struct Minister {
+	int a, b;
+};
+
 /* ===== 解决一个测试用例 ===== */
 void solve() {
-	// 主逻辑写这里
+	int n;
+	cin >> n;
+
+	int king_a, king_b;
+	cin >> king_a >> king_b;
+
+	vector<Minister> ministers(n);
+	for (int i = 0; i < n; ++i) cin >> ministers[i].a >> ministers[i].b;
+
+	sort(ministers.begin(), ministers.end(), [](const Minister& x, const Minister& y) {
+		return 1LL * x.a * x.b < 1LL * y.a * y.b;
+	});
+
+	BigInt pre(king_a), ans(0);
+
+	for (int i = 0; i < n; ++i) {
+		BigInt cur = pre.div_int(ministers[i].b);
+		if (ans < cur) ans = cur;
+		pre.mul_int(ministers[i].a);
+	}
+
+	cout << ans.str() << '\n';
 }
 
 int main() {

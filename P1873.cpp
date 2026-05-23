@@ -149,7 +149,23 @@ struct BigInt {
 
 /* ===== 解决一个测试用例 ===== */
 void solve() {
-	// 主逻辑写这里
+        int N, M;
+        cin >> N >> M;
+        vector<int> list(N);
+        input(list);
+        int h = *max_element(list.begin(), list.end());
+        int l = 0;
+        while (l < h)
+        {
+                int mid = l + ( h - l + 1 ) / 2;
+                long long temp = 0;
+                for (int x: list) if (x >= mid) temp += (x - mid);
+                if (temp >= M)
+                        l = mid;
+                else
+                        h = mid - 1;
+        }
+        cout << l << endl;
 }
 
 int main() {

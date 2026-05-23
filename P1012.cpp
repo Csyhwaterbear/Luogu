@@ -39,19 +39,6 @@ void input(vector<T>& v) {
 	for (auto& x : v) cin >> x;
 }
 
-// 二分查找第一个等于 target 的位置（数组需非降序）
-// 返回 1-based 下标；若不存在返回 -1
-int bifunc(const vector<int>& list, int target) {
-	int l = 0, r = (int)list.size();
-	while (l < r) {
-		int m = l + (r - l) / 2;
-		if (list[m] < target) l = m + 1;
-		else r = m;
-	}
-	if (l < (int)list.size() && list[l] == target) return l + 1;
-	return -1;
-}
-
 /* ===== 数学工具 ===== */
 // greatest common divisor
 ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
@@ -147,9 +134,20 @@ struct BigInt {
 	}
 };
 
-/* ===== 解决一个测试用例 ===== */
+bool comp(const string &a, const string &b)
+{
+        return a + b > b + a;
+}
+
 void solve() {
-	// 主逻辑写这里
+        int n;
+        cin >> n;
+        vector<string> list(n);
+        input(list);
+        sort(list.begin(), list.end(), comp);
+        for (auto s: list)
+                cout << s;
+        cout << endl;
 }
 
 int main() {

@@ -149,7 +149,25 @@ struct BigInt {
 
 /* ===== 解决一个测试用例 ===== */
 void solve() {
-	// 主逻辑写这里
+        int n;
+        ll c;
+        cin >> n >> c;
+
+        vector<ll> list(n);
+        input(list);
+
+        unordered_map<ll, ll> cnt;
+        cnt.reserve((size_t)n * 2);
+        for (ll x : list) ++cnt[x];
+
+        ll ans = 0;
+        for (const auto& kv : cnt) {
+                ll a = kv.fi;
+                ll ca = kv.se;
+                auto it = cnt.find(a - c);
+                if (it != cnt.end()) ans += ca * it->se;
+        }
+        cout << ans << '\n';
 }
 
 int main() {

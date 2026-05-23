@@ -39,17 +39,17 @@ void input(vector<T>& v) {
 	for (auto& x : v) cin >> x;
 }
 
-// 二分查找第一个等于 target 的位置（数组需非降序）
-// 返回 1-based 下标；若不存在返回 -1
-int bifunc(const vector<int>& list, int target) {
+ll bifunc(const vector<int>& list, int target) {
 	int l = 0, r = (int)list.size();
 	while (l < r) {
 		int m = l + (r - l) / 2;
 		if (list[m] < target) l = m + 1;
 		else r = m;
 	}
-	if (l < (int)list.size() && list[l] == target) return l + 1;
-	return -1;
+	ll best = LLONG_MAX;
+	if (l < (int)list.size()) best = min(best, llabs(1LL * list[l] - target));
+	if (l > 0) best = min(best, llabs(1LL * list[l - 1] - target));
+	return best;
 }
 
 /* ===== 数学工具 ===== */
@@ -149,7 +149,19 @@ struct BigInt {
 
 /* ===== 解决一个测试用例 ===== */
 void solve() {
-	// 主逻辑写这里
+        int m, n;
+        cin >> m >> n;
+        vector<int> line(m);
+        vector<int> score(n);
+        input(line);
+        sort(line.begin(), line.end());
+        input(score);
+        ll ans = 0;
+        for (int i = 0; i < n; i++)
+        {
+                ans += bifunc(line, score[i]);
+        }
+        cout << ans << '\n';
 }
 
 int main() {

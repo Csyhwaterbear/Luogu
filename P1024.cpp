@@ -149,7 +149,52 @@ struct BigInt {
 
 /* ===== 解决一个测试用例 ===== */
 void solve() {
-	// 主逻辑写这里
+        double a, b, c, d;
+        cin >> a >> b >> c >> d;
+        double p = ( 3 * a * c - b * b ) / ( 3 * a * a );
+        double q = ( 2 * b * b * b - 9 * a * b * c + 27.0 * a * a * d ) / ( 27 * a * a * a );
+        double half_q = q / 2.0;
+        double third_p = p / 3.0;
+        double disc = half_q * half_q + third_p * third_p * third_p;
+
+        vector< double > roots;
+        double shift = b / ( 3 * a );
+
+        if (disc > 1e-12)
+        {
+                        double A = cbrt(-half_q + sqrt(disc));
+                        double B = cbrt(-half_q - sqrt(disc));
+                        roots.push_back(A + B - shift);
+        }
+        else if( fabs( disc ) <= 1e-12 )
+        {
+                double A = cbrt(-half_q);
+                roots.push_back(2*A - shift);
+                roots.push_back(-A - shift);
+                roots.push_back(-A - shift);
+        }
+        else
+        {
+                double rho = sqrt(-third_p*third_p*third_p);
+                double cosarg = (-half_q) / rho;
+                if (cosarg > 1) cosarg = 1;
+                if (cosarg < -1) cosarg = -1;
+                double theta = acos(cosarg);
+                double r = 2.0 * sqrt(-third_p);
+                for (int k=0;k<3;k++) {
+                        double y = r * cos((theta + 2.0*M_PI*k)/3.0);
+                        roots.push_back(y - shift);
+                }
+        }
+        sort( roots.begin(), roots.end() );
+        cout.setf(std::ios::fixed);
+        cout << setprecision(2);
+        for ( int i = 0; i < 3; i++)
+        {
+                if (i) cout << " ";
+                cout << roots[i];
+        }
+        cout << endl;
 }
 
 int main() {

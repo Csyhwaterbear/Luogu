@@ -406,7 +406,36 @@ template <typename T> void destroy_tree(TreeNode<T> *root) {
 
 /* ===== 解决一个测试用例 ===== */
 void solve() {
-	// 主逻辑写这里
+	struct Team {
+		int power = 0;
+		int id = 0;
+	};
+
+	int n;
+	cin >> n;
+	int m = 1 << n;
+
+	vector<Team> seq(m * 2 - 1);
+	for (int i = 0; i < m; i++) {
+		cin >> seq[m - 1 + i].power;
+		seq[m - 1 + i].id = i + 1;
+	}
+
+	TreeNode<Team> *root = build_complete_tree(seq);
+
+	auto dfs = [&](auto &&self, TreeNode<Team> *node) -> Team {
+		if (!node->left && !node->right)
+			return node->val;
+		Team left = self(self, node->left);
+		Team right = self(self, node->right);
+		return (left.power > right.power ? left : right);
+	};
+
+	Team left = dfs(dfs, root->left);
+	Team right = dfs(dfs, root->right);
+	cout << (left.power > right.power ? right.id : left.id) << '\n';
+
+	destroy_tree(root);
 }
 
 int main() {

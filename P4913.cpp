@@ -406,7 +406,34 @@ template <typename T> void destroy_tree(TreeNode<T> *root) {
 
 /* ===== 解决一个测试用例 ===== */
 void solve() {
-	// 主逻辑写这里
+	int n;
+	cin >> n;
+
+	vector<int> left_child(n + 1), right_child(n + 1);
+	for (int i = 1; i <= n; i++) {
+		int l, r;
+		cin >> l >> r;
+		left_child[i] = l;
+		right_child[i] = r;
+	}
+
+	queue<int> q;
+	q.push(1);
+	int depth = 0;
+	while (!q.empty()) {
+		int cnt = (int)q.size();
+		depth++;
+		while (cnt--) {
+			int u = q.front();
+			q.pop();
+			if (left_child[u] != 0)
+				q.push(left_child[u]);
+			if (right_child[u] != 0)
+				q.push(right_child[u]);
+		}
+	}
+
+	cout << depth << '\n';
 }
 
 int main() {
